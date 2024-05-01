@@ -154,6 +154,8 @@ $ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
      - In the pipeline configuration, select "Pipeline script from SCM" and choose "Git" as the SCM.
      - Enter the repository URL and credentials.
      - Specify the branch to build (e.g., */develop).
+     - In Build Triggers, Check **"GitHub hook trigger for GITScm polling"**.
+     - Save
 
 ### 6. **Implement Webhooks for Continuous Integration:**
 **Set up webhooks in GitHub to trigger Jenkins builds on push events.**
@@ -163,6 +165,7 @@ $ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    - Content type: **application/json**
    - Select **"Just the push event"**.
    - Ensure the webhook is active
+ 
 ### **With the webhook, Jenkins will trigger a new build every time changes are pushed to the connected branch.**
 
 ### 7. **Testing and Validation:**
