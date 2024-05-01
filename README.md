@@ -136,7 +136,7 @@ $ sudo ufw allow 8080
 - source: 0.0.0.0/0
 
 ### Accessing Jenkins:
-- Go to web browser and write : http://<your-jenkins-url>:8080
+- Go to web browser and write : http://<your-jenkins-url(ec2-public-ip)>:8080
 - run the following command on your terminal to get Jenkins password
 ```bash
 $ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
