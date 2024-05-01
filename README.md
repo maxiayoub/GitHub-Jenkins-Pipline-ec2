@@ -1,5 +1,6 @@
 # Automated Build and Test with Jenkins on EC2 Instance
 
+Created this repository as a simple guide to make it easy for everyone who wants to try using pipelines.
 This project aims to set up Jenkins to automatically build and test code changes from a GitHub repository using a Jenkinsfile. The Git Flow branching model is applied to manage the development process.
 
 ## Project Setup
