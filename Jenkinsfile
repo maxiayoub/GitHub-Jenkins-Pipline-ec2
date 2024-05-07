@@ -35,7 +35,7 @@ pipeline {
 def sendEmail() {
      mail to: "maximousfr.ayoubmehanne@gmail.com"
      subject: ${subject}
-     def body = """
+     body = """
                     Hello
                     This is  a Jenkins Pipline Notification for ${env.JOB_NAME} status
                     
