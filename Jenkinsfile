@@ -1,6 +1,12 @@
 pipeline {
     agent any
-
+     parameters {
+        // Define boolean parameter.
+        booleanParam (
+            name: 'RUN_BUILD',
+            defaultValue: true,
+        )
+    }
     stages {
         stage('Build') {
             steps {
