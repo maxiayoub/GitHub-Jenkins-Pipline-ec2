@@ -53,6 +53,14 @@ pipeline {
                 sendEmail()
             }
         }
+	success {
+		when {
+        	expression { params.RUN_BUILD == 'True' }
+        	}
+	}
+	aborted {
+                echo 'Stage aborted.'
+                }	
 	}
 }
 def sendEmail() {
