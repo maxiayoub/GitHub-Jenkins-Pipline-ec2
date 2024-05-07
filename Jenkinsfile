@@ -31,7 +31,6 @@ pipeline {
 	}
 }
  
-
 def sendEmail() {
      mail to: "maximousfr.ayoubmehanne@gmail.com"
      subject: ${subject}
