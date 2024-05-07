@@ -5,14 +5,22 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+		sh 'echo "artifact file" > arcfile.txt'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                    sh "exit 1"
-                }
+		parallel(
+                Test1: { 
+			echo 'Testing 1..'
+                	catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    	sh "exit 1"
+                       }
+		       },
+		Test2: { 
+			echo 'Testing 2..'
+		       }
+		)
             }
         }
         stage('Deploy') {
@@ -24,6 +32,7 @@ pipeline {
 	post {
         always {
             script {
+		archiveArtifacts artifacts: 'arcfile.txt', onlyIfSuccessful: true
                 // Call the email function for each method
                 sendEmail()
             }
@@ -33,6 +42,7 @@ pipeline {
  
 def sendEmail() {
      mail to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+     attachmentsPattern: 'arcfile.txt'
      body = """
                     Hello
                     This is  a Jenkins Pipeline Notification for ${env.JOB_NAME} status
