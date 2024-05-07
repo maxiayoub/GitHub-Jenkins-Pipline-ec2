@@ -2,12 +2,23 @@ pipeline {
     agent any
      parameters {
         // Define boolean parameter.
-        booleanParam (
-            name: 'RUN_BUILD',
-            defaultValue: true,
+        choice(name: 'RUN_BUILD', choices: ['True', 'False'], description: 'Select True to run the build, or False to skip.')
         )
     }
     stages {
+	 stage('Check RUN_BUILD') {
+            steps {
+                script {
+                    if (params.RUN_BUILD == 'False') {
+                        echo 'The build was skipped because RUN_BUILD is set to False.'
+                        // Set the result to ABORTED to indicate the build was skipped
+                        currentBuild.result = 'ABORTED'
+                        // Use return here to exit from the pipeline execution
+                        return
+                    }
+                }
+            }
+        }    
         stage('Build') {
             steps {
                 echo 'Building..'
