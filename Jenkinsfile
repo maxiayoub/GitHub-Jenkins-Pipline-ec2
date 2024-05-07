@@ -25,7 +25,7 @@ pipeline {
         always {
             script {
                 // Call the email function for each method
-                sendEmail()
+                sendEmail("Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}")
             }
         }
         
@@ -34,7 +34,8 @@ pipeline {
  
 
 def sendEmail() {
-     mail to: "maximousfr.ayoubmehanne@gmail.com", subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+     mail to: "maximousfr.ayoubmehanne@gmail.com"
+     subject: ${subject}
      def body = """
                     Hello
                     This is  a Jenkins Pipline Notification for ${env.JOB_NAME} status
