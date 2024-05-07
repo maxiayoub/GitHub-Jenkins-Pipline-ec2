@@ -24,7 +24,7 @@ pipeline {
         post {
         always {
             script {
-		mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+		mail to: 'maximousfr.ayoubmehanne@gmail.com', subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
                 // Call the email function for each method
                 sendEmail()
             }
