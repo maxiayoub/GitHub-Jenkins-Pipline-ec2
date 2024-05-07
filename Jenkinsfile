@@ -20,8 +20,8 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-
-        post {
+    }
+	post {
         always {
             script {
                 // Call the email function for each method
@@ -29,7 +29,6 @@ pipeline {
             }
         }
 	}
-    }
 }
  
 
