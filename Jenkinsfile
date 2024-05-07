@@ -41,7 +41,7 @@ pipeline {
 }
  
 def sendEmail() {
-     mail to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", attachmentsPattern: 'arcfile.txt',
+     emailext to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", attachmentsPattern: 'arcfile.txt',
      body: """
                     Hello
                     This is  a Jenkins Pipeline Notification for ${env.JOB_NAME} status
