@@ -30,12 +30,24 @@ pipeline {
         }
         success {
             mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+	    script {
+                // Call the email function for each method
+                sendEmail()
+	    }
         }
         failure {
             mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+	    script {
+                // Call the email function for each method
+                sendEmail()
+	    }
         }
         unstable {
             mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+	    script {
+                // Call the email function for each method
+                sendEmail()
+	    }
         }
     }
 }
@@ -44,7 +56,7 @@ pipeline {
 def sendEmail() {
      def body = """
                     Hello
-                    This is  a Jenkins Pipline Notification for my pipeline status
+                    This is  a Jenkins Pipline Notification for ${env.JOB_NAME} status
                     
                     Pipeline executed on: ${new Date().format(' HH:mm:ss   dd-MM-YYYY ')}
                     Pipeline Status: ${currentBuild.result ?: 'Unknown'}
