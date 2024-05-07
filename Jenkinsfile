@@ -28,7 +28,7 @@ pipeline {
                 sendEmail("Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}")
             }
         }
-        
+	}
     }
 }
  
