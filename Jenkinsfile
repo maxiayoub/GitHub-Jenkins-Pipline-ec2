@@ -25,18 +25,17 @@ pipeline {
         always {
             script {
                 // Call the email function for each method
-                sendEmail("Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}")
+                sendEmail()
             }
         }
 	}
 }
  
 def sendEmail() {
-     mail to: "maximousfr.ayoubmehanne@gmail.com"
-     subject: ${subject}
+     mail to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
      body = """
                     Hello
-                    This is  a Jenkins Pipline Notification for ${env.JOB_NAME} status
+                    This is  a Jenkins Pipeline Notification for ${env.JOB_NAME} status
                     
                     Pipeline executed on: ${new Date().format(' HH:mm:ss   dd-MM-YYYY ')}
                     Pipeline Status: ${currentBuild.result ?: 'Unknown'}
