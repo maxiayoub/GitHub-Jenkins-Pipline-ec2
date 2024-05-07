@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     sh "exit 1"
                 }
             }
