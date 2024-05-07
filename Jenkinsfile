@@ -24,36 +24,18 @@ pipeline {
         post {
         always {
             script {
+		mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
                 // Call the email function for each method
                 sendEmail()
             }
         }
-        success {
-            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-	    script {
-                // Call the email function for each method
-                sendEmail()
-	    }
-        }
-        failure {
-            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-	    script {
-                // Call the email function for each method
-                sendEmail()
-	    }
-        }
-        unstable {
-            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-	    script {
-                // Call the email function for each method
-                sendEmail()
-	    }
-        }
+        
     }
 }
  
 
 def sendEmail() {
+     mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
      def body = """
                     Hello
                     This is  a Jenkins Pipline Notification for ${env.JOB_NAME} status
@@ -62,7 +44,7 @@ def sendEmail() {
                     Pipeline Status: ${currentBuild.result ?: 'Unknown'}
                     Job Name: ${env.JOB_NAME}
                     Build Number: build ${env.BUILD_NUMBER}
-                    More info at: ${env.BUILD_URL}
+                    More info at ${env.BUILD_URL}
 
 		    By Maximous ElKess Ayoub
                 """                   
