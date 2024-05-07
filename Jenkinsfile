@@ -20,5 +20,38 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+
+        post {
+        always {
+            script {
+                // Call the email function for each method
+                sendEmail()
+            }
+        }
+        success {
+            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
+        failure {
+            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
+        unstable {
+            mail to: maximousfr.ayoubmehanne@gmail.com, subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
     }
+}
+ 
+
+def sendEmail() {
+     def body = """
+                    Hello
+                    This is  a Jenkins Pipline Notification for my pipeline status
+                    
+                    Pipeline executed on: ${new Date().format(' HH:mm:ss   dd-MM-YYYY ')}
+                    Pipeline Status: ${currentBuild.result ?: 'Unknown'}
+                    Job Name: ${env.JOB_NAME}
+                    Build Number: build ${env.BUILD_NUMBER}
+                    More info at: ${env.BUILD_URL}
+
+		    By Maximous ElKess Ayoub
+                """                   
 }
