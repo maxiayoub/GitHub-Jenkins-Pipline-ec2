@@ -3,8 +3,7 @@ pipeline {
      parameters {
         // Define boolean parameter.
         choice(name: 'RUN_BUILD', choices: ['True', 'False'], description: 'Select True to run the build, or False to skip.')
-        )
-    }
+     }
     stages {
 	 stage('Check RUN_BUILD') {
             steps {
