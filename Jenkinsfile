@@ -39,7 +39,6 @@ pipeline {
         }
 	}
 }
-
 def sendEmail() {
      emailext to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", attachmentsPattern: 'arcfile.txt',
      body: """
