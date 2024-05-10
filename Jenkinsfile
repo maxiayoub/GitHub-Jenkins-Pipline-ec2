@@ -17,21 +17,21 @@ pipeline {
 	    when {
                 expression {RUN_BUILD == "true"}   
             }
-            steps {
-		parallel(
-                Test1_Failure: { 
-			echo 'Testing 1..'
-                	catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    	sh "exit 1"
+	    parallel{
+                stage('Test_Failure') {
+			steps {
+				echo 'Testing 1..'
+                		catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE'){
+                    		sh "exit 1"
+				}
                        }
-		},
-		Test2_Success: { 
-			echo 'Testing 2..'
-			script{
-			sh 'echo "This is m -"max"- artifact file" > arcfile.txt'
+		}
+		stage('Test_Success') { 
+			steps {
+				echo 'Testing 2..'
+				sh 'echo "This is m -"max"- artifact file" > arcfile.txt'
 		        }
 		}
-		)
             }
         }
         stage('Deploy') {
