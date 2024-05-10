@@ -1,3 +1,4 @@
+def ARCHIVE_FILE = false;
 pipeline {
     agent any
      parameters {
