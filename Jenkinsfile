@@ -7,7 +7,7 @@ pipeline {
     stages {    
         stage('Build') {
 	    when {
-                expression {RUN_BUILD == "true"}   
+                expression {params.RUN_BUILD == "true"}   
             }
             steps {
                 echo 'Building..'
@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Test') {
 	    when {
-                expression {RUN_BUILD == "true"}   
+                expression {params.RUN_BUILD == "true"}   
             }
 	    parallel{
                 stage('Test_Failure') {
@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Deploy') {
 	    when {
-                expression {RUN_BUILD == "true"}  
+                expression {params.RUN_BUILD == "true"}  
             }
             steps {
                 echo 'Deploying....'
@@ -45,7 +45,7 @@ pipeline {
         }
 	stage('Skipped'){
             when {
-                expression {RUN_BUILD == "false"}
+                expression {params.RUN_BUILD == "false"}
             }
             steps{
                 echo "pipeline skipped..."
@@ -55,21 +55,21 @@ pipeline {
 	post {
         success{
             script{
-                if (RUN_BUILD == "true"){
+                if (params.RUN_BUILD == "true"){
                     sendEmail()
                 }
             }
         }
         failure{
             script{
-                if (RUN_BUILD == "true"){
+                if (params.RUN_BUILD == "true"){
                     sendEmail()
                 }
             }
         }
         unstable{
             script{
-                if (RUN_BUILD == "true"){
+                if (params.RUN_BUILD == "true"){
                     sendEmail()
                 }
             }
