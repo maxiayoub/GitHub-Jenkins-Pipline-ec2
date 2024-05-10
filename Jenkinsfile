@@ -1,4 +1,3 @@
-def ARCHIVE_FILE = false;
 pipeline {
     agent any
      parameters {
@@ -30,7 +29,6 @@ pipeline {
 			echo 'Testing 2..'
 			script{
 			sh 'echo "This is m -"max"- artifact file" > arcfile.txt'
-                	ARCHIVE_FILE=true
 		        }
 		}
 		)
@@ -38,10 +36,7 @@ pipeline {
         }
         stage('Deploy') {
 	    when {
-               allOf {
-                    expression {RUN_BUILD == "true"}
-                    expression {ARCHIVE_FILE == true }
-                }   
+                expression {RUN_BUILD == "true"}  
             }
             steps {
                 echo 'Deploying....'
