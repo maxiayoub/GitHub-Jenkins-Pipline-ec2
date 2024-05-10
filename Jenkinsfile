@@ -4,60 +4,81 @@ pipeline {
         // Define boolean parameter.
         choice(name: 'RUN_BUILD', choices: ['True', 'False'], description: 'Select True to run the build, or False to skip.')
      }
-    stages {
-	 stage('Check RUN_BUILD') {
-            steps {
-                script {
-                    if (params.RUN_BUILD == 'False') {
-                        echo 'The build was skipped because RUN_BUILD is set to False.'
-                        // Set the result to ABORTED to indicate the build was skipped
-                        currentBuild.result = 'ABORTED'
-                        // Use return here to exit from the pipeline execution
-                        return
-                    }
-                }
-            }
-        }    
+    stages {    
         stage('Build') {
+	    when {
+                expression {RUN_BUILD == "true"}   
+            }
             steps {
                 echo 'Building..'
-		sh 'echo "artifact file" > arcfile.txt'
             }
         }
         stage('Test') {
+	    when {
+                expression {RUN_BUILD == "true"}   
+            }
             steps {
 		parallel(
-                Test1: { 
+                Test1_Failure: { 
 			echo 'Testing 1..'
                 	catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                     	sh "exit 1"
                        }
 		       },
-		Test2: { 
+		Test2_Success: { 
 			echo 'Testing 2..'
+			sh 'echo "This is m -"max"- artifact file" > arcfile.txt'
+                	ARCHIVE_FILE=true
 		       }
 		)
             }
         }
         stage('Deploy') {
+	    when {
+               allOf {
+                    expression {RUN_BUILD == "true"}
+                    expression {ARCHIVE_FILE == true }
+                }   
+            }
             steps {
                 echo 'Deploying....'
+		archiveArtifacts artifacts: 'arcfile.txt', onlyIfSuccessful: true
+            }
+        }
+	stage('Skipped'){
+            when {
+                expression {RUN_BUILD == "false"}
+            }
+            steps{
+                echo "pipeline skipped..."
             }
         }
     }
 	post {
-        always {
-            script {
-		archiveArtifacts artifacts: 'arcfile.txt', onlyIfSuccessful: true
-                // Call the email function for each method
-                sendEmail()
+        success{
+            script{
+                if (RUN_BUILD == "true"){
+                    send_mail()
+                }
             }
         }
-	aborted {
-                echo 'Stage aborted.'
-                }	
-	}
+        failure{
+            script{
+                if (RUN_BUILD == "true"){
+                    send_mail()
+                }
+            }
+        }
+        unstable{
+            script{
+                if (RUN_BUILD == "true"){
+                    send_mail()
+                }
+            }
+        }
+    }	
 }
+
 def sendEmail() {
      emailext to: "maximousfr.ayoubmehanne@gmail.com" , subject: "Jenkins Pipeline Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", attachmentsPattern: 'arcfile.txt',
      body: """
