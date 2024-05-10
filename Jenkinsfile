@@ -21,15 +21,17 @@ pipeline {
 		parallel(
                 Test1_Failure: { 
 			echo 'Testing 1..'
-                	catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                	catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                     	sh "exit 1"
                        }
-		       },
+		},
 		Test2_Success: { 
 			echo 'Testing 2..'
+			script{
 			sh 'echo "This is m -"max"- artifact file" > arcfile.txt'
                 	ARCHIVE_FILE=true
-		       }
+		        }
+		}
 		)
             }
         }
