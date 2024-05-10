@@ -58,21 +58,21 @@ pipeline {
         success{
             script{
                 if (RUN_BUILD == "true"){
-                    send_mail()
+                    sendEmail()
                 }
             }
         }
         failure{
             script{
                 if (RUN_BUILD == "true"){
-                    send_mail()
+                    sendEmail()
                 }
             }
         }
         unstable{
             script{
                 if (RUN_BUILD == "true"){
-                    send_mail()
+                    sendEmail()
                 }
             }
         }
